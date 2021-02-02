@@ -43,18 +43,18 @@ class MyModelName(models.Model):
     def __str__(self):
         """String for representing the MyModelName object (in Admin site etc.)."""
         return self.my_field_name
-'''
-class BlogTTM(models.Model):
-    my_field_name = models.CharField(max_length=20, help_text='Enter field documentation')
-    ...
-    class Meta:
-        ordering = ['-my_field_name']
-    def get_absolute_url(self):
-        """Returns the url to access a particular instance of MyModelName."""
-        return reverse('model-detail-view', args=[str(self.id)])
-    def __str__(self):
-        """String for representing the MyModelName object (in Admin site etc.)."""
-        return self.my_field_name
+# '''
+# class BlogTTM(models.Model):
+#     my_field_name = models.CharField(max_length=20, help_text='Enter field documentation')
+#     ...
+#     class Meta:
+#         ordering = ['-my_field_name']
+#     def get_absolute_url(self):
+#         """Returns the url to access a particular instance of MyModelName."""
+#         return reverse('model-detail-view', args=[str(self.id)])
+#     def __str__(self):
+#         """String for representing the MyModelName object (in Admin site etc.)."""
+#         return self.my_field_name
 
 class PostSubject(models.Model):
     name = models.CharField(max_length=10)
@@ -69,7 +69,8 @@ class Post(models.Model):
     content = models.TextField(blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     published_date = models.DateTimeField(blank=True, null=True)
-    post_subject = models.ManyToManyField(PostSubject)   
+    post_subject = models.ManyToManyField(PostSubject, blank=True)   
+    photo = models.ImageField(blank=True)
 
     class Meta:
         abstract = True
@@ -81,13 +82,13 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-class DjangoContents(Post):
+class DjangoContentsModels(Post):
     ...
 
-class Git(Post):
+class GitModels(Post):
     ...
 
-class DataAnalysis(Post):
+class DataAnalysisModels(Post):
     SUBJECT = (
     ('db', 'DataBase'),
     ('v', 'Visualization'),
@@ -104,10 +105,10 @@ class DataAnalysis(Post):
     )
 
 
-class CaseStudy(Post):
+class CaseStudyModels(Post):
     ...
     
-class Cloud(Post):
+class CloudModels(Post):
     SUBJECT = (
     ('a', 'AWS'),
     ('g', 'GCP'),
@@ -123,3 +124,13 @@ class Cloud(Post):
         blank=True,
         default='b',
     )    
+
+from django.utils import timezone
+
+def publish(self):
+    self.published_date = timezone.now()
+    self.save()
+
+def hide(self):
+    self.published_date = None
+    self.save()

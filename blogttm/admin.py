@@ -10,23 +10,23 @@ admin.site.register(Post.PostSubject)
 #     pass
 
 # admin.site.register(Post.DjangoBlog)
-@admin.register(Post.DjangoContents)
+@admin.register(Post.DjangoContentsModels)
 class Django(admin.ModelAdmin):
     list_display = ('title', 'author', 'created_date')
 
-@admin.register(Post.Git)
+@admin.register(Post.GitModels)
 class Git(admin.ModelAdmin):
     list_display = ('title', 'author', 'created_date')
 
-@admin.register(Post.DataAnalysis)
+@admin.register(Post.DataAnalysisModels)
 class DataAnalysis(admin.ModelAdmin):
     list_display = ('title', 'author', 'created_date')
 
-@admin.register(Post.CaseStudy)
+@admin.register(Post.CaseStudyModels)
 class CaseStudy(admin.ModelAdmin):
     list_display = ('title', 'author', 'created_date')
 
-@admin.register(Post.Cloud)
+@admin.register(Post.CloudModels)
 class Cloud(admin.ModelAdmin):
     list_display = ('title', 'author', 'created_date')
 
