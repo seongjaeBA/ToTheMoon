@@ -1,0 +1,12 @@
+{% extends 'blog_layout/base.html' %}
+{% block title %}{{name}}{% endblock %}
+{% block content %}
+	{% if name == "main" %}
+		{% include 'blog_layout/pages/landpage.html' %}
+		{% include 'blog_layout/includes/CTA.html' %}
+	{% elif name == "detailpage" %}
+		{% include 'blog_layout/pages/post.html' %}
+	{% else %}
+		{% include 'blog_layout/pages/cardlist.html' %}
+	{% endif %}
+{% endblock %}

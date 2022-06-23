@@ -10,26 +10,29 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
 import os
-
-from django.db.models import base
+from pathlib import Path
+from decouple import config
+from unipath import Path
+# from django.db.models import base
+# import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-with open('./etc/secret_key.txt') as f:
-    SECRET_KEY = f.read().strip()
+# with open('./etc/secret_key.txt') as f:
+#     SECRET_KEY = f.read().strip()
+SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['localhost', 'https://seongjaeba.github.io/']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1')]
 # ALLOWED_HOSTS = []
 
 
@@ -43,8 +46,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #App#
+    #blog#
     'blogttm',
+
+    # dashboard
+    'dashboard',
 
     #3rd party
 ]
@@ -60,11 +66,14 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Config.urls'
+LOGIN_REDIRECT_URL = "home"   # Route defined in app/urls.py
+LOGOUT_REDIRECT_URL = "home"  # Route defined in app/urls.py
+# TEMPLATE_DIR = os.path.join(BASE_DIR, "core/templates")  # ROOT dir for templates
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'blogttm/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'Config/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,8 +95,20 @@ WSGI_APPLICATION = 'Config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'NAME': BASE_DIR + '/db.sqlite3',
+        'NAME': [os.path.join(BASE_DIR, 'db.sqlite3')]
     }
+
+    # , # postgres
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': config('POSTGRES_NAME'),
+    #     'USER': config('POSTGRES_USER'),
+    #     'PASSWORD': config('POSTGRES_PASSWORD'),
+    #     'HOST': config('POSTGRES_HOST'),
+    #     'PORT': config('POSTGRES_PORT'),
+    # }
+
 }
 
 
@@ -131,5 +152,5 @@ USE_TZ = True
 # STATIC_ROOT=os.path.join(BASE_DIR, 'blogttm/static')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'blogttm/static'),
+    os.path.join(BASE_DIR, 'Config/static'),
 ]

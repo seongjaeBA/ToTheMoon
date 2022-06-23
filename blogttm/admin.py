@@ -3,13 +3,12 @@ import blogttm.models as Post
 
 # Register your models here.
 
-
 admin.site.register(Post.PostSubject)
 # @admin.register(Post.PostSubject)
 # class PostSubject(admin.ModelAdmin):
 #     pass
 
-# admin.site.register(Post.DjangoBlog)
+# admin.site.register(Post.DjangoBlog) 아래와 동일
 @admin.register(Post.DjangoContentsModels)
 class Django(admin.ModelAdmin):
     list_display = ('title', 'author', 'created_date')

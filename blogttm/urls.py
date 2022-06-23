@@ -1,7 +1,6 @@
-from blogttm.admin import Git
 from django.urls import path, include
 from blogttm import views
-
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('', views.main, name='main'),

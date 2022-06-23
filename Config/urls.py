@@ -14,9 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 # from blogttm import views
-from django.urls import include
 
 #url(정규표현식, 뷰)
 # urlpatterns = [
@@ -43,7 +42,11 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
     #블로그 ToTheMoon 안의 앱만 실행되도록 
     path('ToTheMoon/', include('blogttm.urls')),
     path('', RedirectView.as_view(url='/ToTheMoon/', permanent=True)),
+    
+    path("dashboard/", include("authentication.urls")), # Auth routes - login / register
+    path("dashboard/", include("dashboard.urls"))             # UI Kits Html files
 ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
